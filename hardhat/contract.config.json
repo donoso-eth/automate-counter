@@ -1,0 +1,14 @@
+{
+  "oZIncreaseContract": {
+    "name": "OZIncreaseContract",
+    "artifactsPath": "1-OZ-IncreaseCounter.sol/OZIncreaseContract.json",
+    "jsonName": "oz_increase_contract",
+    "ctor": ["1600"]
+  },
+  "increaseCounter": {
+    "name": "IncreaseCounter",
+    "artifactsPath": "IncreaseCounter.sol/IncreaseCounter.json",
+    "jsonName": "increase_counter",
+    "ctor": []
+  }
+}
