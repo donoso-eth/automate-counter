@@ -1,4 +1,4 @@
-import { ethers} from 'ethers'
+import { ethers, utils} from 'ethers'
 
 export const  convertEtherToWei = (ether_value:number)=> {
   return (ether_value * 10 ** 18).toFixed(0);

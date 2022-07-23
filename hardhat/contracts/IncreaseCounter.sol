@@ -13,17 +13,17 @@ abstract contract IncreaseCounter {
    * Use an interval in seconds and a timestamp to slow execution of Upkeep
    */
   uint256 public immutable interval;
-  uint256 public lastTimeStamp;
+  uint256 public lastTimestamp;
 
   constructor(uint256 updateInterval) {
     interval = updateInterval;
-    lastTimeStamp = block.timestamp;
+    lastTimestamp = block.timestamp;
 
     counter = 0;
   }
 
-  function increaseCounter() internal {
-    lastTimeStamp = block.timestamp;
+  function increaseCounter() internal virtual {
+    lastTimestamp = block.timestamp;
     counter = counter + 1;
   }
 }

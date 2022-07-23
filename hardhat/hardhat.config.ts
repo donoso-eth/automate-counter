@@ -16,7 +16,7 @@ const ALCHEMY_ID_MUMBAI = 'YOUR KEY'; //process.env["ALCHEMY_ID_MUMBAI"]
 
 dotenv.config();
 
-//// import task files when types have already been created
+// import task files when types have already been created
 if (existsSync('./typechain-types')) {
   glob.sync('./tasks/**/*.ts').forEach(function (file: any) {
     require(resolve(file));
@@ -30,7 +30,7 @@ if (existsSync('./typechain-types')) {
 const mainnetGwei = 21;
 
 
-const defaultNetwork = 'localhost';
+const defaultNetwork = 'mumbai';
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -45,12 +45,12 @@ const config: HardhatUserConfig = {
   defaultNetwork,
 
   networks: {
-    // hardhat: {
-    //   forking: {
-    //     url: `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_ID_MUMBAI}`,
-    //     blockNumber: 25953748,
-    //   },
-    // },
+    hardhat: {
+      forking: {
+        url: `https://polygon-mumbai.g.alchemy.com/v2/P2lEQkjFdNjdN0M_mpZKB8r3fAa2M0vT`,
+        blockNumber: 26766162,
+      },
+    },
     localhost: {
       url: 'http://localhost:8545',
       chainId: 31337,
@@ -121,8 +121,7 @@ const config: HardhatUserConfig = {
           : [],
     },
     mumbai: {
-      url: `https://speedy-nodes-nyc.moralis.io/${MORALIS_ID}/polygon/mumbai`, // <---- YOUR MORALIS ID! (not limited to infura)
-      // `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_ID_MUMBAI}`
+      url: `https://polygon-mumbai.g.alchemy.com/v2/P2lEQkjFdNjdN0M_mpZKB8r3fAa2M0vT`,
       gasPrice: 1000000000,
           accounts:
         process.env['DEPLOYER_KEY'] !== undefined
