@@ -6,10 +6,10 @@ import {IncreaseCounter} from "./IncreaseCounter.sol";
 import {OpsReady} from "./gelato/OpsReady.sol";
 import {IOps} from "./gelato/IOps.sol";
 
-contract GekatoIncreaseContract is OpsReady,  IncreaseCounter {
+contract GelIncreaseContract is OpsReady,  IncreaseCounter {
  
 
-  mapping (address=> bytes32) public taskIdByUser;
+ 
 
   constructor(uint256 updateInterval, address payable _ops
   )IncreaseCounter(updateInterval) OpsReady(_ops) {

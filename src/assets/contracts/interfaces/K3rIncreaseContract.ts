@@ -16,45 +16,51 @@ import { FunctionFragment, Result } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
-export interface OZIncreaseContractInterface extends utils.Interface {
+export interface K3rIncreaseContractInterface extends utils.Interface {
   functions: {
     "counter()": FunctionFragment;
-    "increaseCounterPublic()": FunctionFragment;
     "interval()": FunctionFragment;
     "lastTimestamp()": FunctionFragment;
+    "taskIdByUser(address)": FunctionFragment;
+    "work()": FunctionFragment;
+    "workable()": FunctionFragment;
   };
 
   encodeFunctionData(functionFragment: "counter", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "increaseCounterPublic",
-    values?: undefined
-  ): string;
   encodeFunctionData(functionFragment: "interval", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "lastTimestamp",
     values?: undefined
   ): string;
+  encodeFunctionData(
+    functionFragment: "taskIdByUser",
+    values: [string]
+  ): string;
+  encodeFunctionData(functionFragment: "work", values?: undefined): string;
+  encodeFunctionData(functionFragment: "workable", values?: undefined): string;
 
   decodeFunctionResult(functionFragment: "counter", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "increaseCounterPublic",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "interval", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "lastTimestamp",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "taskIdByUser",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "work", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "workable", data: BytesLike): Result;
 
   events: {};
 }
 
-export interface OZIncreaseContract extends BaseContract {
+export interface K3rIncreaseContract extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: OZIncreaseContractInterface;
+  interface: K3rIncreaseContractInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -78,33 +84,45 @@ export interface OZIncreaseContract extends BaseContract {
   functions: {
     counter(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    increaseCounterPublic(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     interval(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     lastTimestamp(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    taskIdByUser(arg0: string, overrides?: CallOverrides): Promise<[string]>;
+
+    work(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    workable(overrides?: CallOverrides): Promise<[boolean]>;
   };
 
   counter(overrides?: CallOverrides): Promise<BigNumber>;
-
-  increaseCounterPublic(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
 
   interval(overrides?: CallOverrides): Promise<BigNumber>;
 
   lastTimestamp(overrides?: CallOverrides): Promise<BigNumber>;
 
+  taskIdByUser(arg0: string, overrides?: CallOverrides): Promise<string>;
+
+  work(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  workable(overrides?: CallOverrides): Promise<boolean>;
+
   callStatic: {
     counter(overrides?: CallOverrides): Promise<BigNumber>;
-
-    increaseCounterPublic(overrides?: CallOverrides): Promise<void>;
 
     interval(overrides?: CallOverrides): Promise<BigNumber>;
 
     lastTimestamp(overrides?: CallOverrides): Promise<BigNumber>;
+
+    taskIdByUser(arg0: string, overrides?: CallOverrides): Promise<string>;
+
+    work(overrides?: CallOverrides): Promise<void>;
+
+    workable(overrides?: CallOverrides): Promise<boolean>;
   };
 
   filters: {};
@@ -112,24 +130,35 @@ export interface OZIncreaseContract extends BaseContract {
   estimateGas: {
     counter(overrides?: CallOverrides): Promise<BigNumber>;
 
-    increaseCounterPublic(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     interval(overrides?: CallOverrides): Promise<BigNumber>;
 
     lastTimestamp(overrides?: CallOverrides): Promise<BigNumber>;
+
+    taskIdByUser(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    work(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    workable(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
     counter(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    increaseCounterPublic(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     interval(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     lastTimestamp(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    taskIdByUser(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    work(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    workable(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

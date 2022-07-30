@@ -10,9 +10,10 @@ import { existsSync, readFileSync, writeFileSync } from 'fs';
 import * as glob from 'glob';
 import { resolve } from 'path';
 
-const INFURA_ID = 'YOUR KEY'; //process.env["INFURA_ID"]
+const INFURA_ID = process.env["INFURA_ID"]
 const MORALIS_ID = 'YOUR KEY'; //process.env["MORALIS_ID"]
 const ALCHEMY_ID_MUMBAI = 'YOUR KEY'; //process.env["ALCHEMY_ID_MUMBAI"]
+
 
 dotenv.config();
 
@@ -30,7 +31,7 @@ if (existsSync('./typechain-types')) {
 const mainnetGwei = 21;
 
 
-const defaultNetwork = 'mumbai';
+const defaultNetwork = 'rinkeby';
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -56,7 +57,7 @@ const config: HardhatUserConfig = {
       chainId: 31337,
     },
     rinkeby: {
-      url: `https://rinkeby.infura.io/v3/${INFURA_ID}`, // <---- YOUR INFURA ID! (or it won't work)
+      url: "https://rinkeby.infura.io/v3/1e43f3d31eea4244bf25ed4c13bfde0e", // <---- YOUR INFURA ID! (or it won't work)
       // `https://speedy-nodes-nyc.moralis.io/${MORALIS_ID}/eth/rinkeby`
       accounts:
         process.env['DEPLOYER_KEY'] !== undefined
@@ -96,7 +97,7 @@ const config: HardhatUserConfig = {
           : [],
     },
     goerli: {
-      url: `https://goerli.infura.io/v3/${INFURA_ID}`, // <---- YOUR INFURA ID! (or it won't work)
+      url: `https://goerli.infura.io/v3/1e43f3d31eea4244bf25ed4c13bfde0e`, // <---- YOUR INFURA ID! (or it won't work)
       // `https://speedy-nodes-nyc.moralis.io/${MORALIS_ID}/eth/goerli`
           accounts:
         process.env['DEPLOYER_KEY'] !== undefined
@@ -147,7 +148,8 @@ const config: HardhatUserConfig = {
     currency: 'USD',
   },
   etherscan: {
-    apiKey: process.env['ETHERSCAN_API_KEY'],
+   // apiKey: process.env['MUMBAI_API_KEY'],
+   apiKey: process.env['ETHERSCAN_API_KEY'],
   },
 };
 

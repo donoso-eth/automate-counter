@@ -11,6 +11,9 @@ import config from "../hardhat.config";
 import { join } from "path";
 import { createHardhatAndFundPrivKeysFiles } from "../helpers/localAccounts";
 import * as hre from 'hardhat';
+import { initEnv } from "../helpers/utils";
+import { ChainLinkIncreaseContract__factory, OZIncreaseContract__factory , K3rIncreaseContract__factory}  from "../typechain-types";
+import {  } from "../typechain-types/factories/KeeperIncreaseContract__factory";
 
 
 interface ICONTRACT_DEPLOY {
@@ -26,72 +29,62 @@ const contract_path = join(processDir,contract_path_relative)
 ensureDir(contract_path)
 
 async function main() {
-
-let network = hardhatArguments.network;
-if (network == undefined) {
-  network = config.defaultNetwork;
-}
-
-  const contract_config = JSON.parse(readFileSync( join(processDir,'contract.config.json'),'utf-8')) as {[key:string]: ICONTRACT_DEPLOY}
-  
-  const deployContracts=["oZIncreaseContract"]
- 
-  // Hardhat always runs the compile task when running scripts with its command
-  // line interface.
-  //
-  // If this script is run directly using `node` you may want to call compile
-  // manually to make sure everything is compiled
-  // await hre.run('compile');
-
-  
-  for (const toDeployName of deployContracts) {
-    const toDeployContract = contract_config[toDeployName];
-    if (toDeployContract == undefined) {
-      console.error('Your contract is not yet configured');
-      console.error(
-        'Please add the configuration to /hardhat/contract.config.json'
-      );
-      return;
-    }
-    const artifactsPath = join(
-      processDir,
-      `./artifacts/contracts/${toDeployContract.artifactsPath}`
-    );
-    const Metadata = JSON.parse(readFileSync(artifactsPath, 'utf-8'));
-    const Contract = await ethers.getContractFactory(toDeployContract.name);
-    const contract = await Contract.deploy.apply(
-      Contract,
-      toDeployContract.ctor
-    );
-
-   
-    //const signer:Signer = await hre.ethers.getSigners()
-
-    writeFileSync(
-      `${contract_path}/${toDeployContract.jsonName}_metadata.json`,
-      JSON.stringify({
-        abi: Metadata.abi,
-        name: toDeployContract.name,
-        address: contract.address,
-        network: network,
-      })
-    );
-
-    console.log(
-      toDeployContract.name + ' Contract Deployed to:',
-      contract.address
-    );
-
-    ///// copy Interfaces and create Metadata address/abi to assets folder
-    copySync(
-      `./typechain-types/${toDeployContract.name}.ts`,
-      join(contract_path, 'interfaces', `${toDeployContract.name}.ts`)
-    );
+  const [deployer] = await initEnv(hre);
+  let network = hardhatArguments.network;
+  if (network == undefined) {
+    network = config.defaultNetwork;
   }
 
+  const contract_config = JSON.parse(
+    readFileSync(join(processDir, 'contract.config.json'), 'utf-8')
+  ) as { [key: string]: ICONTRACT_DEPLOY };
+
+  
+  let toDeployName = 'chainLinkIncreaseContract';
+  //let toDeployName = 'k3rIncreaseContract';
+  let toDeployContract = contract_config[toDeployName];
+
+  let artifactsPath = join(
+    processDir,
+    `./artifacts/contracts/${toDeployContract.artifactsPath}`
+  );
+  let metadataLink = JSON.parse(readFileSync(artifactsPath, 'utf-8'));
+  const chainLinkApp = await new  ChainLinkIncreaseContract__factory(deployer).deploy(
+    180
+  );
+
+  
+
+  writeFileSync(
+    `${contract_path}/${toDeployContract.jsonName}_metadata.json`,
+    JSON.stringify({
+      abi: metadataLink.abi,
+      name: toDeployContract.name,
+      address: chainLinkApp.address,
+      network: network,
+    })
+  );
+
+  console.log(
+    toDeployContract.name + ' Contract Deployed to:',
+    chainLinkApp.address
+  );
+
+  ///// copy Interfaces and create Metadata address/abi to assets folder
+  copySync(
+    `./typechain-types/${toDeployContract.name}.ts`,
+    join(contract_path, 'interfaces', `${toDeployContract.name}.ts`)
+  );
+ 
+
+     
+
+
+
   ///// create the local accounts file
+
   if (
-    !existsSync(`${contract_path}/local_accouts.json`) &&
+    !existsSync(join(contract_path,'local_accouts.json')) &&
     (network == 'localhost' || network == 'hardhat')
   ) {
     const accounts_keys = await createHardhatAndFundPrivKeysFiles(
@@ -99,12 +92,12 @@ if (network == undefined) {
       contract_path
     );
     writeFileSync(
+
       `${contract_path}/local_accouts.json`,
       JSON.stringify(accounts_keys)
     );
   }
 
- 
   ///// copy addressess files
   if (!existsSync(`${contract_path}/interfaces/common.ts`)) {
     copySync(
@@ -112,9 +105,8 @@ if (network == undefined) {
       join(contract_path, 'interfaces', 'common.ts')
     );
   }
-
-
 }
+
 
 // We recommend this pattern to be able to use async/await everywhere
 // and properly handle errors.

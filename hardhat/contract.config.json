@@ -1,14 +1,26 @@
 {
   "oZIncreaseContract": {
     "name": "OZIncreaseContract",
-    "artifactsPath": "1-OZ-IncreaseCounter.sol/OZIncreaseContract.json",
-    "jsonName": "oz_increase_contract",
-    "ctor": ["1600"]
+    "artifactsPath": "4-OZ-IncreaseCounter.sol/OZIncreaseContract.json",
+    "jsonName": "o_z_increase_contract",
+    "ctor": ["updateInterval:uint256"]
   },
-  "increaseCounter": {
-    "name": "IncreaseCounter",
-    "artifactsPath": "IncreaseCounter.sol/IncreaseCounter.json",
-    "jsonName": "increase_counter",
-    "ctor": []
+  "gelIncreaseContract": {
+    "name": "GelIncreaseContract",
+    "artifactsPath": "1-GEL-IncreaseCounter.sol/GelIncreaseContract.json",
+    "jsonName": "gel_increase_contract",
+    "ctor": ["updateInterval:uint256", "_ops:address"]
+  },
+  "k3rIncreaseContract": {
+    "name": "K3rIncreaseContract",
+    "artifactsPath": "2-K3R-IncreaseCounter.sol/K3rIncreaseContract.json",
+    "jsonName": "k3r_increase_contract",
+    "ctor": ["updateInterval:uint256"]
+  },
+  "chainLinkIncreaseContract": {
+    "name": "ChainLinkIncreaseContract",
+    "artifactsPath": "3-CHAIN-LINK-IncreaseCounter.sol/ChainLinkIncreaseContract.json",
+    "jsonName": "chain_link_increase_contract",
+    "ctor": ["updateInterval:uint256"]
   }
 }

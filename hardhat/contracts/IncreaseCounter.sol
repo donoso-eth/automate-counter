@@ -15,6 +15,8 @@ abstract contract IncreaseCounter {
   uint256 public immutable interval;
   uint256 public lastTimestamp;
 
+  mapping (address=> bytes32) public taskIdByUser;
+
   constructor(uint256 updateInterval) {
     interval = updateInterval;
     lastTimestamp = block.timestamp;
